@@ -1,22 +1,46 @@
-import React from 'react'
-import { Row , Col } from 'react-bootstrap'
-import  products  from '../products'
-import { Product } from '../components/product'
-
+import React from "react";
+import { Row, Col, Container } from "react-bootstrap";
+import { Product } from "../components/Product";
+import { useGetProductsQuery } from "../slices/productsApiSlice";
+import Loading from "../components/Loading";
 
 export const HomeScreen = () => {
+  const { data: products, isLoading, isError, error } = useGetProductsQuery();
+
+  const styles = {
+    section: { padding: "4rem 0" },
+    title: {
+      fontWeight: 700,
+      fontSize: "2.25rem",
+      letterSpacing: "-0.03em",
+      marginBottom: "2rem",
+      color: "#111",
+    },
+    subtitle: { color: "#666", marginBottom: "3rem", fontSize: "1.1rem" }
+  };
+
   return (
-    <>
-      <h1>
-        Latest Products
-      </h1>
-      <Row>
-        {products.map((product)=>(
-          <Col sm={12} md={6} lg={4} xl={3}>
-            <Product product={product} key={product._id}/>
-          </Col>
-        ))}
-      </Row>
-    </>
-  )
-}
+    <Container style={styles.section}>
+      {isLoading ? (
+        <Loading />
+      ) : isError ? (
+        <div className="alert alert-danger">{error?.data?.message || error.error}</div>
+      ) : (
+        <>
+          <header>
+            <h1 style={styles.title}>New Arrivals</h1>
+            <p style={styles.subtitle}>Thoughtfully designed pieces for your everyday life.</p>
+          </header>
+          
+          <Row className="gy-4">
+            {products.map((product) => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={product} />
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
+    </Container>
+  );
+};
