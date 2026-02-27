@@ -1,8 +1,11 @@
 import React from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container , NavDropdown } from "react-bootstrap";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch , useSelector } from "react-redux";
+import { useLogoutMutation } from "../slices/usersApiSlice.js"
+import { logOut } from "../slices/authSlice.js"
 
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -72,6 +75,18 @@ const css = `
 function Header() {
   const { cartItems } = useSelector((state) => state.cart);
   const totalQty = cartItems.reduce((acc, item) => acc + item.qty, 0);
+  const { userInfo } = useSelector((state) => state.auth);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const [logout , { isloading }]  = useLogoutMutation()
+
+  const logoutHandler = () => {
+    logout();
+    dispatch(logOut());
+    navigate("/");
+  };
+
 
   return (
     <>
@@ -82,7 +97,10 @@ function Header() {
             <Navbar.Brand className="nav-brand">SCAMAZON</Navbar.Brand>
           </LinkContainer>
 
-          <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0" />
+          <Navbar.Toggle
+            aria-controls="basic-navbar-nav"
+            className="border-0"
+          />
 
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto align-items-center">
@@ -100,15 +118,51 @@ function Header() {
                 </Nav.Link>
               </LinkContainer>
 
-              <LinkContainer to="/profile">
-                <Nav.Link className="nav-item-link">
-                  <FaUser size={16} className="me-1" /> Profile
-                </Nav.Link>
-              </LinkContainer>
+              {userInfo ? (
+                <NavDropdown
+                  title={
+                    <span>
+                      <FaUser size={16} className="me-1" /> {userInfo.name}
+                    </span>
+                  }
+                  id="username"
+                  className="nav-item-link custom-dropdown"
+                >
+                  <style>
+                    {`
+                      .custom-dropdown .dropdown-menu {
+                        border-radius: 0;
+                        border: 2px solid #000;
+                        margin-top: 10px;
+                        box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
+                      }
+                      .custom-dropdown .dropdown-item {
+                        font-weight: 700;
+                        letter-spacing: 1px;
+                        padding: 12px 20px;
+                        text-transform: uppercase;
+                        font-size: 0.8rem;
+                      }
+                      .custom-dropdown .dropdown-item:hover {
+                        background-color: #000;
+                        color: #fff;
+                      }
+                    `}
+                  </style>
 
-              <LinkContainer to="/login">
-                <Nav.Link className="login-btn">Sign In</Nav.Link>
-              </LinkContainer>
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>My Account</NavDropdown.Item>
+                  </LinkContainer>
+
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link className="login-btn">Sign In</Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

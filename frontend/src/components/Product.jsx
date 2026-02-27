@@ -36,7 +36,6 @@ const styles = {
     lineHeight: '1.4',
     height: '2.8rem',
     overflow: 'hidden',
-    display: '-webkit-box',
     WebkitLineClamp: 2,
     WebkitBoxOrient: 'vertical',
   },
