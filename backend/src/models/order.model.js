@@ -33,10 +33,6 @@ const ordertSchema = new Schema(
       },
     ],
     shippingAddress: {
-      fullName: {
-        type: String,
-        required: true,
-      },
       address: {
         type: String,
         required: true,
@@ -82,7 +78,6 @@ const ordertSchema = new Schema(
     },
     isPaid: {
       type: Boolean,
-      required: true,
       default: false,
     },
     paidAt: {

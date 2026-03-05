@@ -23,10 +23,18 @@ app.use(cookieParser());
 
 import productRouter from "./routes/product.routes.js"
 import userRouter from "./routes/user.routes.js"
+import orderRouter from "./routes/order.routes.js"
 
 
 app.use("/api/v1/products" , productRouter)
 app.use("/api/v1/users" , userRouter)
+app.use("/api/v1/orders" , orderRouter)
+
+
+
+app.get('/api/v1/config/paypal', (req, res) =>
+  res.send({clientId : process.env.PAYPAL_CLIENT_ID})
+)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

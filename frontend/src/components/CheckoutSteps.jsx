@@ -1,39 +1,45 @@
-// components/CheckoutSteps.jsx
 import React from 'react';
-import { Nav } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 
 const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
-  const linkStyle = (active) => ({
-    color: active ? '#000' : '#ccc',
-    fontWeight: active ? '900' : '400',
-    textTransform: 'uppercase',
-    fontSize: '0.75rem',
-    letterSpacing: '1px',
-    borderBottom: active ? '2px solid #000' : '2px solid transparent',
-    paddingBottom: '5px'
-  });
-
   return (
-    <Nav className='justify-content-center mb-4'>
-      <Nav.Item>
-        {step1 ? (
-          <LinkContainer to='/login'><Nav.Link style={linkStyle(true)}>Sign In</Nav.Link></LinkContainer>
-        ) : (
-          <Nav.Link disabled style={linkStyle(false)}>Sign In</Nav.Link>
-        )}
-      </Nav.Item>
+    <nav className="d-flex justify-content-center mb-5 mt-4">
+      <div className="d-flex align-items-center w-100 px-3" style={{ maxWidth: '800px' }}>
+        
+        <div className="text-center flex-fill">
+          {step1 ? (
+            <Link to="/login" className="nav-link fw-bold text-primary border-bottom border-primary border-3 pb-2">Sign In</Link>
+          ) : (
+            <span className="nav-link disabled text-muted border-bottom border-light border-3 pb-2">Sign In</span>
+          )}
+        </div>
 
-      <Nav.Item>
-        {step2 ? (
-          <LinkContainer to='/shipping'><Nav.Link style={linkStyle(true)}>Shipping</Nav.Link></LinkContainer>
-        ) : (
-          <Nav.Link disabled style={linkStyle(false)}>Shipping</Nav.Link>
-        )}
-      </Nav.Item>
-      
-      {/* ... repeat for step3 (Payment) and step4 (Place Order) */}
-    </Nav>
+        <div className="text-center flex-fill">
+          {step2 ? (
+            <Link to="/shipping" className="nav-link fw-bold text-primary border-bottom border-primary border-3 pb-2">Shipping</Link>
+          ) : (
+            <span className="nav-link disabled text-muted border-bottom border-light border-3 pb-2">Shipping</span>
+          )}
+        </div>
+
+        <div className="text-center flex-fill">
+          {step3 ? (
+            <Link to="/payment" className="nav-link fw-bold text-primary border-bottom border-primary border-3 pb-2">Payment</Link>
+          ) : (
+            <span className="nav-link disabled text-muted border-bottom border-light border-3 pb-2">Payment</span>
+          )}
+        </div>
+
+        <div className="text-center flex-fill">
+          {step4 ? (
+            <Link to="/placeorder" className="nav-link fw-bold text-primary border-bottom border-primary border-3 pb-2">Place Order</Link>
+          ) : (
+            <span className="nav-link disabled text-muted border-bottom border-light border-3 pb-2">Place Order</span>
+          )}
+        </div>
+
+      </div>
+    </nav>
   );
 };
 
