@@ -7,6 +7,8 @@
 
 Scamazon is a full-stack, feature-rich e-commerce platform built with the MERN stack. It features a premium, modern user interface, secure authentication, and end-to-end payment integration using the PayPal SDK.
 
+**Live Demo:** [Click here to view the live site](YOUR_LIVE_LINK_HERE)
+
 ## ✨ Key Features
 
 * **Premium UI/UX:** Custom dark/light mode component blending, soft shadows, and responsive design built on top of React-Bootstrap.
@@ -14,6 +16,9 @@ Scamazon is a full-stack, feature-rich e-commerce platform built with the MERN s
 * **Secure Checkout Flow:** Step-by-step progressive checkout (Shipping, Payment Method, Final Review).
 * **Live Payment Integration:** Real-time, secure transaction processing using the PayPal Developer SDK.
 * **Order Management:** Dedicated user profiles with comprehensive order history and status badges (Paid, Delivered).
+* **⭐ Product Reviews & Ratings:** Authenticated users can leave reviews and rate products, featuring dynamic aggregate scoring.
+* **🔍 Search & Pagination:** Robust product search functionality with paginated results for seamless catalog browsing.
+* **🛡️ Admin Dashboard:** Complete administrative control to manage user roles, add/edit/delete products, and track/update order fulfillment statuses.
 * **State Management:** Powered by Redux Toolkit (RTK) and RTK Query for efficient API caching and state hydration.
 * **Authentication:** Secure JWT-based user authentication and protected routing.
 
@@ -42,45 +47,51 @@ PORT=8000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 PAYPAL_CLIENT_ID=your_paypal_sandbox_client_id
+```
 
-🚀 Installation & Setup
-1. Clone the repository
+## 🚀 Installation & Setup
 
-Bash
-git clone [https://github.com/yourusername/scamazon.git](https://github.com/yourusername/scamazon.git)
+**1. Clone the repository**
+```bash
+git clone [https://github.com/S-Rohan-Kumar/scamazon.git](https://github.com/S-Rohan-Kumar/scamazon.git)
 cd scamazon
-2. Install Backend Dependencies
+```
 
-Bash
+**2. Install Backend Dependencies**
+```bash
 npm install
-3. Install Frontend Dependencies
+```
 
-Bash
+**3. Install Frontend Dependencies**
+```bash
 cd frontend
 npm install
-4. Run the Application (Concurrently)
+```
+
+**4. Run the Application (Concurrently)**
 From the root directory, run both the frontend and backend simultaneously:
 
-Bash
+```bash
 npm run dev
-(The application will run with the frontend typically on http://localhost:3000 and the backend on http://localhost:8000)
+```
+*(The application will run with the frontend typically on `http://localhost:3000` and the backend on `http://localhost:8000`)*
 
-🎨 UI / UX Highlights
+## 🎨 UI / UX Highlights
+
 Scamazon moves away from standard, rigid Bootstrap templates to deliver a SaaS-like experience. It utilizes:
+* **Typography:** `Inter` font stack with tight letter spacing for a sleek, modern feel.
+* **Dark Mode Summaries:** High-contrast `#111` summary cards paired with clean `#fff` item lists.
+* **Micro-interactions:** Smooth hover scaling and custom, color-coded status badges for order states.
 
-Typography: Inter font stack with tight letter spacing for a sleek, modern feel.
+## 🤝 Contributing
 
-Dark Mode Summaries: High-contrast #111 summary cards paired with clean #fff item lists.
-
-Micro-interactions: Smooth hover scaling and custom, color-coded status badges for order states.
-
-🤝 Contributing
 Contributions, issues, and feature requests are welcome!
 Feel free to check the issues page.
 
-👤 Author
-S Rohan Kumar
+## 👤 Author
 
-GitHub: S-Rohan-Kumar
+**S Rohan Kumar**
+* GitHub: [@S-Rohan-Kumar](https://github.com/S-Rohan-Kumar)
 
-If you found this project helpful, please consider giving it a ⭐ on GitHub!
+---
+*If you found this project helpful, please consider giving it a ⭐ on GitHub!*
