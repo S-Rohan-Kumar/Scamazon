@@ -1,47 +1,180 @@
 # 🛒 Scamazon
 
-![MERN Stack](https://img.shields.io/badge/MERN-Stack-blue?style=for-the-badge&logo=mongodb)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)
-![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)
+![MERN Stack](https://img.shields.io/badge/MERN-Stack-blue?style=for-the-badge\&logo=mongodb)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge\&logo=react\&logoColor=61DAFB)
+![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge\&logo=redux\&logoColor=white)
+![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge\&logo=paypal\&logoColor=white)
 
-Scamazon is a full-stack, feature-rich e-commerce platform built with the MERN stack. It features a premium, modern user interface, secure authentication, and end-to-end payment integration using the PayPal SDK.
+Scamazon is a **full‑stack, production‑style e‑commerce platform** built using the **MERN Stack (MongoDB, Express, React, Node.js)**. The project focuses on building a **real-world scalable online store** with a premium UI/UX, secure authentication, modern state management, and integrated online payments.
 
-**Live Demo:** [Click here to view the live site](YOUR_LIVE_LINK_HERE)
+This project replicates core features used by modern commerce platforms and demonstrates **full-stack engineering skills including authentication, state management, payment processing, admin dashboards, and product search systems.**
 
-## ✨ Key Features
+---
 
-* **Premium UI/UX:** Custom dark/light mode component blending, soft shadows, and responsive design built on top of React-Bootstrap.
-* **Shopping Cart:** Full cart functionality including adding/removing items and dynamic quantity adjustments.
-* **Secure Checkout Flow:** Step-by-step progressive checkout (Shipping, Payment Method, Final Review).
-* **Live Payment Integration:** Real-time, secure transaction processing using the PayPal Developer SDK.
-* **Order Management:** Dedicated user profiles with comprehensive order history and status badges (Paid, Delivered).
-* **⭐ Product Reviews & Ratings:** Authenticated users can leave reviews and rate products, featuring dynamic aggregate scoring.
-* **🔍 Search & Pagination:** Robust product search functionality with paginated results for seamless catalog browsing.
-* **🛡️ Admin Dashboard:** Complete administrative control to manage user roles, add/edit/delete products, and track/update order fulfillment statuses.
-* **State Management:** Powered by Redux Toolkit (RTK) and RTK Query for efficient API caching and state hydration.
-* **Authentication:** Secure JWT-based user authentication and protected routing.
+# 🌐 Live Demo
 
-## 🛠️ Tech Stack
+Frontend: **[Live Link Coming Soon]**
 
-**Frontend:**
+Backend API: **[Live Link Coming Soon]**
+
+---
+
+# ✨ Core Features
+
+## 🛍️ Customer Features
+
+### User Authentication
+
+* Secure **JWT-based authentication**
+* User registration and login
+* Password encryption using **bcryptjs**
+* Protected routes
+
+### Product Browsing
+
+* Product listing page
+* Product detail page
+* Image gallery
+* Product ratings and reviews
+
+### Product Search
+
+* Keyword based product search
+* Pagination support
+* Optimized backend search queries
+
+### Shopping Cart
+
+* Add products to cart
+* Remove items from cart
+* Update item quantity
+* Persistent cart state
+
+### Checkout Flow
+
+Step‑by‑step checkout system:
+
+1. Shipping Address
+2. Payment Method
+3. Order Review
+4. Place Order
+
+### Payment Integration
+
+* **PayPal Developer SDK** integration
+* Real‑time payment processing
+* Secure checkout system
+
+### Order Management
+
+Users can:
+
+* View order history
+* View individual order details
+* Track payment status
+* Track delivery status
+
+### Product Reviews
+
+* Verified purchase reviews
+* Star rating system
+* Review submission
+
+---
+
+# 🛠️ Admin Dashboard Features
+
+### Admin Authentication
+
+* Admin protected routes
+* Role‑based authorization
+
+### Product Management
+
+Admins can:
+
+* Create products
+* Edit product details
+* Upload product images
+* Delete products
+
+### Order Management
+
+Admins can:
+
+* View all orders
+* Mark orders as delivered
+* Monitor payment status
+
+### User Management
+
+Admins can:
+
+* View registered users
+* Delete users
+* Manage user roles
+
+---
+
+# 🎨 UI / UX Highlights
+
+Scamazon focuses on creating a **modern SaaS-like interface rather than traditional Bootstrap templates.**
+
+### Design System
+
+* **React-Bootstrap based UI system**
+* Clean card layouts
+* Responsive mobile-first design
+
+### Visual Enhancements
+
+* Dark / Light UI blending
+* Soft shadows and layered cards
+* Smooth hover animations
+
+### Typography
+
+* Inter font stack
+* Clean spacing and readability
+
+### UX Details
+
+* Color coded order status badges
+* Smooth navigation transitions
+* Clean checkout experience
+
+---
+
+# ⚙️ Tech Stack
+
+## Frontend
+
 * React.js
-* Redux Toolkit & RTK Query
-* React-Bootstrap
+* Redux Toolkit
+* RTK Query
 * React Router DOM
+* React Bootstrap
 * PayPal React SDK
 
-**Backend:**
+## Backend
+
 * Node.js
 * Express.js
-* MongoDB & Mongoose
-* JSON Web Tokens (JWT) & bcryptjs for Authentication
+* MongoDB
+* Mongoose
 
-## ⚙️ Environment Variables
+## Authentication & Security
 
-To run this project, you will need to add a `.env` file to your root directory with the following variables:
+* JSON Web Tokens (JWT)
+* bcryptjs
 
-```env
+---
+
+# ⚙️ Environment Variables
+
+Create a **.env file** in the root directory:
+
+```
 NODE_ENV=development
 PORT=8000
 MONGO_URI=your_mongodb_connection_string
@@ -49,49 +182,104 @@ JWT_SECRET=your_jwt_secret_key
 PAYPAL_CLIENT_ID=your_paypal_sandbox_client_id
 ```
 
-## 🚀 Installation & Setup
+---
 
-**1. Clone the repository**
-```bash
-git clone [https://github.com/S-Rohan-Kumar/scamazon.git](https://github.com/S-Rohan-Kumar/scamazon.git)
+# 🚀 Installation & Setup
+
+## 1️⃣ Clone the Repository
+
+```
+git clone https://github.com/yourusername/scamazon.git
 cd scamazon
 ```
 
-**2. Install Backend Dependencies**
-```bash
+## 2️⃣ Install Backend Dependencies
+
+```
 npm install
 ```
 
-**3. Install Frontend Dependencies**
-```bash
+## 3️⃣ Install Frontend Dependencies
+
+```
 cd frontend
 npm install
 ```
 
-**4. Run the Application (Concurrently)**
-From the root directory, run both the frontend and backend simultaneously:
+## 4️⃣ Run the Application
 
-```bash
+Run both frontend and backend concurrently:
+
+```
 npm run dev
 ```
-*(The application will run with the frontend typically on `http://localhost:3000` and the backend on `http://localhost:8000`)*
 
-## 🎨 UI / UX Highlights
+Frontend will run on:
 
-Scamazon moves away from standard, rigid Bootstrap templates to deliver a SaaS-like experience. It utilizes:
-* **Typography:** `Inter` font stack with tight letter spacing for a sleek, modern feel.
-* **Dark Mode Summaries:** High-contrast `#111` summary cards paired with clean `#fff` item lists.
-* **Micro-interactions:** Smooth hover scaling and custom, color-coded status badges for order states.
+```
+http://localhost:3000
+```
 
-## 🤝 Contributing
+Backend will run on:
 
-Contributions, issues, and feature requests are welcome!
-Feel free to check the issues page.
-
-## 👤 Author
-
-**S Rohan Kumar**
-* GitHub: [@S-Rohan-Kumar](https://github.com/S-Rohan-Kumar)
+```
+http://localhost:8000
+```
 
 ---
-*If you found this project helpful, please consider giving it a ⭐ on GitHub!*
+
+# 📂 Project Structure
+
+```
+scamazon
+
+backend
+ ├── controllers
+ ├── models
+ ├── routes
+ ├── middleware
+ └── server.js
+
+frontend
+ ├── components
+ ├── screens
+ ├── redux
+ ├── slices
+ └── App.js
+```
+
+---
+
+# 📌 Planned Features
+
+The following features are currently being developed:
+
+* Advanced product filtering
+* Product categories
+* Image upload system
+* Admin analytics dashboard
+* Inventory management
+* Email notifications
+* Order tracking improvements
+
+---
+
+# 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome.
+
+Feel free to fork the repository and submit pull requests.
+
+---
+
+# 👤 Author
+
+**S Rohan Kumar**
+
+GitHub: [https://github.com/S-Rohan-Kumar](https://github.com/S-Rohan-Kumar)
+
+---
+
+# ⭐ Support
+
+If you found this project useful, consider giving it a **star on GitHub ⭐**.
