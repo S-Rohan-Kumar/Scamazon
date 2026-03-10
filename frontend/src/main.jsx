@@ -24,6 +24,7 @@ import PlaceOrderScreen from "./page/PlaceOrderScreen.jsx";
 import OrderScreen from "./page/OrderScreen.jsx";
 import ProfileScreen from "./page/ProfileScreen.jsx";
 import AdminRouter from './components/AdminRouter';
+import { HelmetProvider } from "react-helmet-async"
 import OrderListScreen from "./page/admin/OrderListScreen.jsx"
 import ProductListScreen from "./page/admin/ProductListScreen.jsx"
 import ProductEditScreen from "./page/admin/ProductEditScreen.jsx"
@@ -63,10 +64,12 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}>
-      <PayPalScriptProvider deferLoading={true}>
-        <RouterProvider router={router} />
-      </PayPalScriptProvider>
-    </Provider>
+    <HelmetProvider>
+      <Provider store={store}>
+        <PayPalScriptProvider deferLoading={true}>
+          <RouterProvider router={router} />
+        </PayPalScriptProvider>
+      </Provider>
+    </HelmetProvider>
   </StrictMode>,
 );

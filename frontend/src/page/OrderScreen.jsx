@@ -252,11 +252,11 @@ const OrderScreen = () => {
                       {item.name}
                     </span>
                     <div style={{ color: "#888", fontSize: "0.9rem" }}>
-                      {item.qty} x ₹{item.price}
+                      {item.qty} x ${item.price}
                     </div>
                   </Col>
                   <Col xs={3} className="text-end fw-bold">
-                    ₹{(item.qty * item.price).toFixed(2)}
+                    ${(item.qty * item.price).toFixed(2)}
                   </Col>
                 </Row>
               ))}
@@ -278,25 +278,25 @@ const OrderScreen = () => {
               <div style={orderStyles.summaryLine}>
                 <span>Items</span>
                 <span style={{ color: "#fff" }}>
-                  ₹{order.itemsPrice.toFixed(2)}
+                  ${order.itemsPrice.toFixed(2)}
                 </span>
               </div>
               <div style={orderStyles.summaryLine}>
                 <span>Shipping</span>
                 <span style={{ color: "#fff" }}>
-                  ₹{order.shippingPrice.toFixed(2)}
+                  ${order.shippingPrice.toFixed(2)}
                 </span>
               </div>
               <div style={orderStyles.summaryLine}>
                 <span>Tax</span>
                 <span style={{ color: "#fff" }}>
-                  ₹{order.taxPrice.toFixed(2)}
+                  ${order.taxPrice.toFixed(2)}
                 </span>
               </div>
 
               <div style={orderStyles.totalLine}>
                 <span>{order.isPaid ? "Total Paid" : "Total Due"}</span>
-                <span>₹{order.totalPrice.toFixed(2)}</span>
+                <span>${order.totalPrice.toFixed(2)}</span>
               </div>
 
               {!order.isPaid && userInfo && !userInfo.isAdmin && (

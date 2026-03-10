@@ -6,6 +6,7 @@ import {
   updateProduct,
   deleteProduct,
   createProductReview,
+  getTopProducts,
 } from "../controllers/product.controller.js";
 
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -16,6 +17,8 @@ import { upload } from "../middlewares/multer.midleware.js";
 const router = Router();
 
 router.route("/").get(getAllProducts).post(verifyJWT, adminAuth, createproduct);
+
+router.route("/top").get(getTopProducts);
 router
   .route("/:id")
   .get(getProductById)
@@ -25,6 +28,8 @@ router
 router
   .route("/:id/reviews")
   .post(verifyJWT, createProductReview);
+
+  
   
 
 export default router;

@@ -146,6 +146,14 @@ const createProductReview = asyncHandler(async (req, res) => {
     );
 });
 
+const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  return res
+    .status(200)
+    .json(new APIResponse(200, products, "Top products fetched successfully"));
+});
+
+
 export {
   getAllProducts,
   getProductById,
@@ -153,4 +161,5 @@ export {
   updateProduct,
   deleteProduct,
   createProductReview,
+  getTopProducts,
 };

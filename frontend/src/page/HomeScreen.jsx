@@ -1,17 +1,20 @@
 import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 import { Product } from "../components/Product";
 import { useGetProductsQuery } from "../slices/productsApiSlice";
 import Loading from "../components/Loading";
 import Paginate from "../components/Paginate";
-import { useParams } from "react-router-dom";
+import ProductCarousel from "../components/ProductCarousel";
 
 export const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
+  
   const { data, isLoading, isError, error } = useGetProductsQuery({
     keyword,
     pageNumber,
   });
+  
   const products = data?.products;
 
   const styles = {
@@ -24,10 +27,25 @@ export const HomeScreen = () => {
       color: "#111",
     },
     subtitle: { color: "#666", marginBottom: "3rem", fontSize: "1.1rem" },
+    goBack: {
+      display: "inline-block",
+      marginBottom: "2rem",
+      color: "#111",
+      fontWeight: 600,
+      textDecoration: "none",
+    }
   };
 
   return (
     <Container style={styles.section}>
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to="/" style={styles.goBack}>
+          &larr; Go Back
+        </Link>
+      )}
+
       {isLoading ? (
         <Loading />
       ) : isError ? (
@@ -37,10 +55,14 @@ export const HomeScreen = () => {
       ) : (
         <>
           <header>
-            <h1 style={styles.title}>New Arrivals</h1>
-            <p style={styles.subtitle}>
-              Thoughtfully designed pieces for your everyday life.
-            </p>
+            <h1 style={styles.title}>
+              {keyword ? `Search Results for "${keyword}"` : "New Arrivals"}
+            </h1>
+            {!keyword && (
+              <p style={styles.subtitle}>
+                Thoughtfully designed pieces for your everyday life.
+              </p>
+            )}
           </header>
 
           <Row className="gy-4">
@@ -50,10 +72,11 @@ export const HomeScreen = () => {
               </Col>
             ))}
           </Row>
+          
           <Paginate
             pages={data.pages}
             page={data.page}
-            // keyword={keyword ? keyword : ''}
+            keyword={keyword ? keyword : ""}
           />
         </>
       )}

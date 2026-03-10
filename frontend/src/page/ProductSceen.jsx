@@ -8,6 +8,7 @@ import Message from '../components/Message';
 import { useGetproductDetailsQuery, useCreateReviewMutation } from "../slices/productsApiSlice";
 import { addTocart } from "../slices/cartslice.js";
 import { toast } from 'react-toastify';
+import Meta from '../components/Meta.jsx';
 
 const styles = {
   backLink: {
@@ -137,6 +138,8 @@ export const ProductSceen = () => {
 
   return (
     <Container className="py-5">
+      <Meta title={product.name} />
+
       <Link to="/" style={styles.backLink} onMouseEnter={e => e.target.style.color = '#111'} onMouseLeave={e => e.target.style.color = '#666'}>
         &larr; Back to gallery
       </Link>

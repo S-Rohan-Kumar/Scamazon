@@ -201,7 +201,7 @@ const PlaceOrderScreen = () => {
                     className="text-end fw-bold"
                     style={{ fontSize: "1.1rem" }}
                   >
-                    ₹{(item.qty * item.price).toFixed(2)}
+                    ${(item.qty * item.price).toFixed(2)}
                   </Col>
                 </Row>
               ))}
@@ -222,7 +222,7 @@ const PlaceOrderScreen = () => {
 
               <div style={styles.summaryLine}>
                 <span>Items</span>
-                <span style={{ color: "#fff" }}>₹{cart.itemsPrice}</span>
+                <span style={{ color: "#fff" }}>${cart.itemsPrice}</span>
               </div>
 
               <div style={styles.summaryLine}>
@@ -232,18 +232,18 @@ const PlaceOrderScreen = () => {
                     color: cart.shippingPrice === 0 ? "#10b981" : "#fff",
                   }}
                 >
-                  {cart.shippingPrice === 0 ? "Free" : `₹${cart.shippingPrice}`}
+                  {cart.shippingPrice === 0 ? "Free" : `$${cart.shippingPrice}`}
                 </span>
               </div>
 
               <div style={styles.summaryLine}>
                 <span>Estimated Tax</span>
-                <span style={{ color: "#fff" }}>₹{cart.taxPrice}</span>
+                <span style={{ color: "#fff" }}>${cart.taxPrice}</span>
               </div>
 
               <div style={styles.totalLine}>
                 <span>Total</span>
-                <span>₹{cart.totalPrice}</span>
+                <span>${cart.totalPrice}</span>
               </div>
 
               <button
