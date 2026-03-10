@@ -72,7 +72,12 @@ const adminStyles = {
 };
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, isError, error  , refetch } = useGetProductsQuery();
+  const keyword = ""
+  const pageNumber = ""
+  const { data: products, isLoading, isError, error  , refetch } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
   const [createProduct , {isLoading  : createLoading  }] = useCreateProductMutation();
   const [deleteProduct , {isLoading : deleteLoading} ] = useDeleteProductMutation();
 
