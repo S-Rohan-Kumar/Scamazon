@@ -2,6 +2,7 @@ import {
   createOrder,
   getMyOrders,
   getOrderById,
+  getOrders,
   updateOrderToPaid,
   updateOrderToDelivered,
 } from "../controllers/order.controller.js";
@@ -12,7 +13,7 @@ import { Router } from 'express';
 const router = Router();
 
 
-router.route("/").post(verifyJWT, createOrder);
+router.route("/").post(verifyJWT, createOrder).get(verifyJWT, adminAuth, getOrders);
 router.route("/me").get(verifyJWT, getMyOrders);
 router.route("/:id").get(verifyJWT , getOrderById);
 router.route("/:id/pay").put(verifyJWT , updateOrderToPaid);

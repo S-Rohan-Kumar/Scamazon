@@ -54,6 +54,13 @@ const getOrderById = asyncHandler(async (req, res) => {
     .json(new APIResponse(200, order, "Order fetched successfully"));
 });
 
+const getOrders  = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate("user", "name email");
+  return res
+    .status(200)
+    .json(new APIResponse(200, orders, "All orders fetched successfully"));
+})
+
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (!order) {
@@ -82,13 +89,15 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   await order.save({
     validateBeforeSave: false,
   });
-  return res.status(200).json(new APIResponse(200, order, "Order delivered"));
+  const updatedOrder = Order.findById(order._id)
+  return res.status(200).json(new APIResponse(200, updatedOrder, "Order delivered"));
 });
 
 export {
   createOrder,
   getMyOrders,
   getOrderById,
+  getOrders,
   updateOrderToPaid,
   updateOrderToDelivered,
 };

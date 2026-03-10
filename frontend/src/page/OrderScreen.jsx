@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Row, Col, Image, Container } from "react-bootstrap";
 import {
   FaCheckCircle,
@@ -12,6 +12,7 @@ import {
   useGetOrderQuery,
   usePayOrderMutation,
   useGetPayPalClientIdQuery,
+  useDeliverOrderMutation
 } from "../slices/orderApiSlice.js";
 import Loading from "../components/Loading.jsx";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
@@ -80,16 +81,34 @@ const orderStyles = {
     fontSize: "1.25rem",
     color: "#fff",
   },
+  adminBtn: {
+    width: "100%",
+    backgroundColor: "#fff",
+    color: "#111",
+    border: "none",
+    borderRadius: "14px",
+    padding: "1.1rem",
+    fontWeight: 600,
+    marginTop: "1.5rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "12px",
+    transition: "all 0.3s ease",
+  },
 };
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
 
-  const { data: order, isLoading, isError, error  , refetch} = useGetOrderQuery(orderId);
+  const { data: order, isLoading, isError, error, refetch } = useGetOrderQuery(orderId);
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
+
 
   const {
     data: paypal,
@@ -97,43 +116,52 @@ const OrderScreen = () => {
     error: errorPayPal,
   } = useGetPayPalClientIdQuery();
 
-  useEffect(() => {
-  if (!errorPayPal && !loadingPayPal && paypal?.clientId) {
-    const loadPayPalScript = async () => {
-      paypalDispatch({
-        type: "resetOptions",
-        value: {
-          "client-id": paypal.clientId,
-          currency: "USD",
-        },
-      });
-      paypalDispatch({
-        type: "setLoadingStatus",
-        value: "pending",
-      });
-    };
-
-    if (order && !order.isPaid) {
-      loadPayPalScript(); 
-    }
-  }
-}, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
-
   const { userInfo } = useSelector((state) => state.auth);
 
-  async function onApproveTest() {
-    await payOrder({ orderId, details : { payer : {} } });
-    refetch();
-    toast.success("Payment successfully");
+  useEffect(() => {
+    if (!errorPayPal && !loadingPayPal && paypal?.clientId) {
+      const loadPayPalScript = async () => {
+        paypalDispatch({
+          type: "resetOptions",
+          value: {
+            "client-id": paypal.clientId,
+            currency: "USD",
+          },
+        });
+        paypalDispatch({
+          type: "setLoadingStatus",
+          value: "pending",
+        });
+      };
+
+      if (order && !order.isPaid) {
+        if (!window.paypal) {
+          loadPayPalScript();
+        }
+      }
+    }
+  }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
+
+  const submitHandler = async () => {
+    try {
+      await deliverOrder(orderId)
+      refetch()
+      toast.success("Order delivered successfully")
+    } catch (error) {
+      toast.error(error?.data?.message || error?.message)
+    }
   }
+  
 
   if (isLoading) {
     return <Loading />;
   }
 
   if (isError) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error?.data?.message || error.message}</div>;
   }
+
+
 
   return (
     <div style={orderStyles.page}>
@@ -165,7 +193,7 @@ const OrderScreen = () => {
                 }}
               >
                 {order.isDelivered
-                  ? `Delivered on ${order.deliveredAt}`
+                  ? `Delivered on ${order.deliveredAt.substring(0, 10)}`
                   : "Processing Shipment"}
               </div>
             </div>
@@ -191,7 +219,7 @@ const OrderScreen = () => {
                 {order.isPaid ? (
                   <>
                     <FaCheckCircle size={12} className="me-2" /> Paid on{" "}
-                    {order.paidAt}
+                    {order.paidAt.substring(0, 10)}
                   </>
                 ) : (
                   "Awaiting Payment"
@@ -216,7 +244,7 @@ const OrderScreen = () => {
                       src={item.image}
                       alt={item.name}
                       fluid
-                      style={{ borderRadius: "12px" }}
+                      style={{ borderRadius: "12px", aspectRatio: "1/1", objectFit: "cover" }}
                     />
                   </Col>
                   <Col className="ps-4">
@@ -224,11 +252,11 @@ const OrderScreen = () => {
                       {item.name}
                     </span>
                     <div style={{ color: "#888", fontSize: "0.9rem" }}>
-                      {item.qty} x ${item.price}
+                      {item.qty} x ₹{item.price}
                     </div>
                   </Col>
                   <Col xs={3} className="text-end fw-bold">
-                    ${(item.qty * item.price).toFixed(2)}
+                    ₹{(item.qty * item.price).toFixed(2)}
                   </Col>
                 </Row>
               ))}
@@ -250,28 +278,28 @@ const OrderScreen = () => {
               <div style={orderStyles.summaryLine}>
                 <span>Items</span>
                 <span style={{ color: "#fff" }}>
-                  ${order.itemsPrice.toFixed(2)}
+                  ₹{order.itemsPrice.toFixed(2)}
                 </span>
               </div>
               <div style={orderStyles.summaryLine}>
                 <span>Shipping</span>
                 <span style={{ color: "#fff" }}>
-                  ${order.shippingPrice.toFixed(2)}
+                  ₹{order.shippingPrice.toFixed(2)}
                 </span>
               </div>
               <div style={orderStyles.summaryLine}>
                 <span>Tax</span>
                 <span style={{ color: "#fff" }}>
-                  ${order.taxPrice.toFixed(2)}
+                  ₹{order.taxPrice.toFixed(2)}
                 </span>
               </div>
 
               <div style={orderStyles.totalLine}>
                 <span>{order.isPaid ? "Total Paid" : "Total Due"}</span>
-                <span>${order.totalPrice.toFixed(2)}</span>
+                <span>₹{order.totalPrice.toFixed(2)}</span>
               </div>
 
-              {!order.isPaid && (
+              {!order.isPaid && userInfo && !userInfo.isAdmin && (
                 <div className="mt-4 pt-4 border-top border-secondary">
                   {loadingPay && <Loading />}
 
@@ -297,7 +325,6 @@ const OrderScreen = () => {
                       >
                         Complete your payment below
                       </p>
-                      {/* <button onClick={onApproveTest}> Test Payment </button> */}
                       <div
                         style={{
                           backgroundColor: "#f8f9fa",
@@ -312,37 +339,40 @@ const OrderScreen = () => {
                             shape: "rect",
                           }}
                           createOrder={(data, actions) => {
-                            return actions.order.create({
-                              purchase_units: [
-                                {
-                                  amount: {
-                                    value: order.totalPrice.toString(), // ✅ must be a string
-                                    currency_code: "USD",
+                            return actions.order
+                              .create({
+                                purchase_units: [
+                                  {
+                                    amount: {
+                                      value: Number(order.totalPrice).toFixed(2),
+                                      currency_code: "USD",
+                                    },
                                   },
-                                },
-                              ],
-                            }).then((orderID) => {
-                              return orderID;
-                            })
+                                ],
+                              })
+                              .then((orderID) => {
+                                return orderID;
+                              });
                           }}
                           onApprove={(data, actions) => {
-                            actions.order.capture().then(async (details) => {
+                            return actions.order.capture().then(async (details) => {
                               try {
                                 await payOrder({
                                   orderId,
                                   paymentResult: details,
                                 });
                                 refetch();
-                                toast.success("Payment successfully");
+                                toast.success("Payment successful");
                               } catch (error) {
                                 toast.error(
-                                  error?.data?.message || error?.message,
+                                  error?.data?.message || error?.message
                                 );
                               }
                             });
                           }}
-                          onError={() => {
-                            toast.error("Payment failed");
+                          onError={(err) => {
+                            toast.error("Payment failed or cancelled");
+                            console.error(err);
                           }}
                         />
                       </div>
@@ -350,6 +380,18 @@ const OrderScreen = () => {
                   )}
                 </div>
               )}
+              {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                <button
+                  type="button"
+                  style={orderStyles.adminBtn}
+                  onClick={submitHandler}
+                  onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.02)")}
+                  onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                >
+                  Mark As Delivered <FaCheckCircle size={16} />
+                </button>
+              )}
+              {loadingDeliver && <Loading />}
             </div>
           </Col>
         </Row>

@@ -3,9 +3,16 @@ import { Row, Col, Container } from "react-bootstrap";
 import { Product } from "../components/Product";
 import { useGetProductsQuery } from "../slices/productsApiSlice";
 import Loading from "../components/Loading";
+import Paginate from "../components/Paginate";
+import { useParams } from "react-router-dom";
 
 export const HomeScreen = () => {
-  const { data: products, isLoading, isError, error } = useGetProductsQuery();
+  const { pageNumber, keyword } = useParams();
+  const { data, isLoading, isError, error } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
+  const products = data?.products;
 
   const styles = {
     section: { padding: "4rem 0" },
@@ -16,7 +23,7 @@ export const HomeScreen = () => {
       marginBottom: "2rem",
       color: "#111",
     },
-    subtitle: { color: "#666", marginBottom: "3rem", fontSize: "1.1rem" }
+    subtitle: { color: "#666", marginBottom: "3rem", fontSize: "1.1rem" },
   };
 
   return (
@@ -24,14 +31,18 @@ export const HomeScreen = () => {
       {isLoading ? (
         <Loading />
       ) : isError ? (
-        <div className="alert alert-danger">{error?.data?.message || error.error}</div>
+        <div className="alert alert-danger">
+          {error?.data?.message || error.error}
+        </div>
       ) : (
         <>
           <header>
             <h1 style={styles.title}>New Arrivals</h1>
-            <p style={styles.subtitle}>Thoughtfully designed pieces for your everyday life.</p>
+            <p style={styles.subtitle}>
+              Thoughtfully designed pieces for your everyday life.
+            </p>
           </header>
-          
+
           <Row className="gy-4">
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -39,6 +50,11 @@ export const HomeScreen = () => {
               </Col>
             ))}
           </Row>
+          <Paginate
+            pages={data.pages}
+            page={data.page}
+            // keyword={keyword ? keyword : ''}
+          />
         </>
       )}
     </Container>

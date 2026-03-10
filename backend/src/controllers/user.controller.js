@@ -39,7 +39,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  if([email,password].some((field) => field?.trim() === "")){
+  if ([email, password].some((field) => field?.trim() === "")) {
     throw new APIError(400, "Email and password are required");
   }
 
@@ -87,70 +87,69 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 const getUserProfile = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user?._id).select("-password");
-    if (!user) {
-      throw new APIError(404, "User not found");
-    }   
+  const user = await User.findById(req.user?._id).select("-password");
+  if (!user) {
+    throw new APIError(404, "User not found");
+  }
 
-    return res
-      .status(200)
-      .json(new APIResponse(200, user, "User profile fetched successfully"));
-
+  return res
+    .status(200)
+    .json(new APIResponse(200, user, "User profile fetched successfully"));
 });
 
 //desc update user details
 //@route PUT /api/users/profile
 //@access Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user?._id).select("-password") ;
-    if (!user) {
-      throw new APIError(404, "User not found");
-    }
+  const user = await User.findById(req.user?._id).select("-password");
+  if (!user) {
+    throw new APIError(404, "User not found");
+  }
 
-    user.name = req.body.name || user.name;
+  user.name = req.body.name || user.name;
 
-    return res
-      .status(200)
-      .json(new APIResponse(200, user, "User profile updated successfully"));
-
+  return res
+    .status(200)
+    .json(new APIResponse(200, user, "User profile updated successfully"));
 });
 
 //@desc Get usrs
 //@route GET /api/users
 //@access Private/Admin
 const getAllUsers = asyncHandler(async (req, res) => {
-    const users = await User.find({});
-    return res
-      .status(200)
-      .json(new APIResponse(200, users, "All users fetched successfully"));
+  const users = await User.find({});
+  return res
+    .status(200)
+    .json(new APIResponse(200, users, "All users fetched successfully"));
 });
 
 const getUserById = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id).select("-password");
-    if (!user) {
-      throw new APIError(404, "User not found");
-    }
+  const user = await User.findById(req.params.id).select("-password");
+  if (!user) {
+    throw new APIError(404, "User not found");
+  }
 
-    return res
-      .status(200)
-      .json(new APIResponse(200, user, "User fetched successfully"));
-
+  return res
+    .status(200)
+    .json(new APIResponse(200, user, "User fetched successfully"));
 });
 
 //desc delete user
 //@route DELETE /api/users/:id
 //@access Private/Admin
 const deleteUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-        throw new APIError(404, "User not found");
-    }
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    throw new APIError(404, "User not found");
+  }
+  if (user.isAdmin) {
+    throw new APIError(400, "Cannot delete admin user");
+  }
+  await User.findByIdAndDelete(user._id);
 
-    await User.findByIdAndDelete(user._id)
-
-    return res
-        .status(200)
-        .json(new APIResponse(200, null, "User deleted successfully"));
+  return res
+    .status(200)
+    .json(new APIResponse(200, null, "User deleted successfully"));
 });
 
 export {

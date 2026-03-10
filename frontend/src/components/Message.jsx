@@ -8,13 +8,13 @@ const Message = ({ variant, children }) => {
     <Alert 
       variant={variant} 
       style={{
-        backgroundColor: '#fff', // Pure white background to match your clean UI
+        backgroundColor: '#fff', 
         color: '#111',
         border: 'none',
-        borderLeft: `6px solid ${isError ? '#ff4444' : '#111'}`, // Strong accent bar
+        borderLeft: `6px solid ${isError ? '#ff4444' : '#111'}`, 
         borderRadius: '0',
         padding: '1.5rem',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.05)', // Subtle elevation
+        boxShadow: '0 4px 12px rgba(0,0,0,0.05)', 
         fontFamily: 'inherit'
       }}
     >
