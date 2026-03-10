@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import products from "./data/products.js"
 import dotenv from "dotenv";
+import path from 'path';
 
 dotenv.config({
     path : "./.env"
@@ -36,9 +37,9 @@ app.get('/api/v1/config/paypal', (req, res) =>
   res.send({clientId : process.env.PAYPAL_CLIENT_ID})
 )
 
+const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === "production") {
-  const __dirname = path.resolve();
   app.use(express.static(path.join(__dirname, "/frontend/dist")));  
   app.get("*", (req, res) =>
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
