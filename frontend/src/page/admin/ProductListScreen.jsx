@@ -1,12 +1,11 @@
 import React from "react";
 import { Table, Row, Col, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import { useGetProductsQuery } from "../../slices/productsApiSlice.js";
-import { useSelector, useDispatch } from "react-redux";
+import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation } from "../../slices/productsApiSlice.js";
 import Loading from "../../components/Loading.jsx";
 import Message from "../../components/Message.jsx";
-import { useCreateProductMutation , useDeleteProductMutation } from "../../slices/productsApiSlice.js";
+import Paginate from "../../components/Paginate.jsx";
 import { toast } from 'react-toastify';
 
 const adminStyles = {
@@ -39,7 +38,7 @@ const adminStyles = {
     borderRadius: "12px",
     padding: "0.8rem 1.5rem",
     fontWeight: 600,
-    display: "inline-flex", /* <--- Changed to inline-flex to fix the right alignment */
+    display: "inline-flex",
     alignItems: "center",
     gap: "8px",
     transition: "all 0.3s ease",
@@ -72,22 +71,26 @@ const adminStyles = {
 };
 
 const ProductListScreen = () => {
-  const keyword = ""
-  const pageNumber = 0
-  const { data , isLoading, isError, error  , refetch } = useGetProductsQuery({keyword , pageNumber});
-  const [createProduct , {isLoading  : createLoading  }] = useCreateProductMutation();
-  const [deleteProduct , {isLoading : deleteLoading} ] = useDeleteProductMutation();
+  const { pageNumber } = useParams();
+  
+  const { data, isLoading, isError, error, refetch } = useGetProductsQuery({
+    keyword: "", 
+    pageNumber 
+  });
+  
+  const [createProduct, { isLoading: createLoading }] = useCreateProductMutation();
+  const [deleteProduct, { isLoading: deleteLoading }] = useDeleteProductMutation();
 
-  const products = data?.products;
+  const products = data?.products || [];
+
   const deleteHandler = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
-      console.log("Delete product triggered for ID:", id);
       try {
-        await deleteProduct(id)
-        refetch()
-        toast.success('Product deleted successfully')
+        await deleteProduct(id);
+        refetch();
+        toast.success('Product deleted successfully');
       } catch (error) {
-        toast.error(error?.data?.message || error?.message)
+        toast.error(error?.data?.message || error?.message);
       }
     }
   };
@@ -121,6 +124,7 @@ const ProductListScreen = () => {
             <button
               style={adminStyles.createBtn}
               onClick={createProductHandler}
+              disabled={createLoading}
               onMouseOver={(e) =>
                 (e.currentTarget.style.transform = "scale(1.03)")
               }
@@ -130,6 +134,9 @@ const ProductListScreen = () => {
             </button>
           </Col>
         </Row>
+
+        {createLoading && <Loading />}
+        {deleteLoading && <Loading />}
 
         <div style={adminStyles.whiteCard}>
           <div className="table-responsive">
@@ -169,7 +176,7 @@ const ProductListScreen = () => {
                       {product.name}
                     </td>
                     <td className="py-4" style={{ fontWeight: 600 }}>
-                      ${product.price.toFixed(2)} {/* <--- Changed to $ */}
+                      ${product.price.toFixed(2)}
                     </td>
                     <td className="py-4" style={{ color: "#666" }}>
                       {product.category}
@@ -212,6 +219,11 @@ const ProductListScreen = () => {
             </Table>
           </div>
         </div>
+
+        {data?.pages > 1 && (
+          <Paginate pages={data.pages} page={data.page} isAdmin={true} />
+        )}
+
       </Container>
     </div>
   );
