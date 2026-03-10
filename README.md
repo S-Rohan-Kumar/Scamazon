@@ -13,9 +13,7 @@ This project replicates core features used by modern commerce platforms and demo
 
 # 🌐 Live Demo
 
-Frontend: **[Live Link Coming Soon]**
-
-Backend API: **[Live Link Coming Soon]**
+Live: **(https://scamazon-drkx.onrender.com)**
 
 ---
 
