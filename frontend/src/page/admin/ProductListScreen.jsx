@@ -73,15 +73,12 @@ const adminStyles = {
 
 const ProductListScreen = () => {
   const keyword = ""
-  const pageNumber = ""
-  const { data: products, isLoading, isError, error  , refetch } = useGetProductsQuery({
-    keyword,
-    pageNumber,
-  });
+  const pageNumber = 0
+  const { data , isLoading, isError, error  , refetch } = useGetProductsQuery({keyword , pageNumber});
   const [createProduct , {isLoading  : createLoading  }] = useCreateProductMutation();
   const [deleteProduct , {isLoading : deleteLoading} ] = useDeleteProductMutation();
 
-
+  const products = data?.products;
   const deleteHandler = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       console.log("Delete product triggered for ID:", id);
